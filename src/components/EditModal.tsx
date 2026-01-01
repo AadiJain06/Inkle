@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { TaxRecord, Country } from '../types';
 import { fetchCountries, updateTaxRecord } from '../services/api';
 import './EditModal.css';

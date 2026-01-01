@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import DataTable from './components/DataTable';
 import { fetchTaxes, fetchCountries } from './services/api';
 import type { TaxRecord, Country } from './types';
