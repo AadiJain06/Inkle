@@ -1,0 +1,31 @@
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
+  background-color: #2d2d2d;
+}
+
+.app-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.app-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 24px;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 48px;
+  font-size: 16px;
+  color: #666;
+}
+
+.error {
+  color: #e74c3c;
+}
+

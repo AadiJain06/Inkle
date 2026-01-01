@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Endpoint Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #2d2d2d;
+            color: white;
+        }
+        .endpoint {
+            background: #3d3d3d;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        button {
+            background: #9333ea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #7e22ce;
+        }
+        .result {
+            background: #1a1a1a;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background: #2d2d2d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Endpoint Tester</h1>
+    
+    <div class="endpoint">
+        <h3>1. GET /taxes (Get All Tax Records)</h3>
+        <button onclick="testGetAll()">Test GET /taxes</button>
+        <div id="result1" class="result"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>2. GET /taxes/:id (Get Single Tax Record)</h3>
+        <input type="text" id="getId" placeholder="Enter ID (e.g., 2)" value="2">
+        <button onclick="testGetById()">Test GET /taxes/:id</button>
+        <div id="result2" class="result"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>3. POST /taxes (Create New Tax Record)</h3>
+        <button onclick="testPost()">Test POST /taxes</button>
+        <div id="result3" class="result"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>4. PUT /taxes/:id (Update Tax Record)</h3>
+        <input type="text" id="putId" placeholder="Enter ID (e.g., 2)" value="2">
+        <button onclick="testPut()">Test PUT /taxes/:id</button>
+        <div id="result4" class="result"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>5. DELETE /taxes/:id (Delete Tax Record)</h3>
+        <input type="text" id="deleteId" placeholder="Enter ID (e.g., 2)" value="2">
+        <button onclick="testDelete()">Test DELETE /taxes/:id</button>
+        <div id="result5" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://685013d7e7c42cfd17974a33.mockapi.io/taxes';
+
+        async function testGetAll() {
+            const resultDiv = document.getElementById('result1');
+            resultDiv.textContent = 'Loading...';
+            try {
+                const response = await fetch(API_BASE);
+                const data = await response.json();
+                resultDiv.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function testGetById() {
+            const id = document.getElementById('getId').value;
+            const resultDiv = document.getElementById('result2');
+            resultDiv.textContent = 'Loading...';
+            try {
+                const response = await fetch(`${API_BASE}/${id}`);
+                const data = await response.json();
+                resultDiv.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function testPost() {
+            const resultDiv = document.getElementById('result3');
+            resultDiv.textContent = 'Loading...';
+            try {
+                const newRecord = {
+                    name: "Test User",
+                    country: "India",
+                    gender: "Male",
+                    entity: "Test Entity",
+                    requestDate: new Date().toISOString()
+                };
+                const response = await fetch(API_BASE, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newRecord)
+                });
+                const data = await response.json();
+                resultDiv.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function testPut() {
+            const id = document.getElementById('putId').value;
+            const resultDiv = document.getElementById('result4');
+            resultDiv.textContent = 'Loading...';
+            try {
+                const updatedRecord = {
+                    name: "Updated Name",
+                    country: "US",
+                    gender: "Female",
+                    entity: "Updated Entity",
+                    requestDate: new Date().toISOString()
+                };
+                const response = await fetch(`${API_BASE}/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedRecord)
+                });
+                const data = await response.json();
+                resultDiv.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function testDelete() {
+            const id = document.getElementById('deleteId').value;
+            const resultDiv = document.getElementById('result5');
+            resultDiv.textContent = 'Loading...';
+            try {
+                const response = await fetch(`${API_BASE}/${id}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+                resultDiv.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
+
